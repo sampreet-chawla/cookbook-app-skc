@@ -86,6 +86,9 @@ function App() {
 		}).then((data) => getAuthors());
 	};
 
+	// TODO
+	// To add handler methods to Add / Update / Delete Cookbook
+
 	return (
 		<Router>
 			<Switch>
