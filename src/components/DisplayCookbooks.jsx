@@ -19,8 +19,7 @@ const DisplayCookbooks = (props) => {
 		return cookbooksJSX;
 	};
 
-	const displayCookbooks =
-		cookbooks.length > 0 ? loadCookbooks() : <h3>Loading...</h3>;
+	const displayCookbooks = cookbooks.length > 0 ? loadCookbooks() : <></>;
 	return (
 		<div>
 			Cookbooks&nbsp;&nbsp;

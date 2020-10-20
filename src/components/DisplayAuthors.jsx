@@ -11,28 +11,25 @@ const DisplayAuthors = (props) => {
 			return (
 				<article
 					key={index}
-					style={{ border: '1px solid', margin: '0px 50px' }}>
+					style={{ border: '1px solid', margin: '0px 50px', padding: '10px' }}>
 					<h4>
 						#{index + 1} {author.firstName} {author.lastName}&nbsp;&nbsp;
-						{/* <button
+						<button
 							onClick={() => {
-								props.selectDog(dog);
-								props.history.push('/edit');
+								props.selectAuthor(author);
+								props.history.push('/edit-author');
 							}}>
 							Edit
 						</button>
+						&nbsp;&nbsp;
 						<button
 							onClick={() => {
-								props.deleteDog(dog);
+								props.deleteAuthor(author);
 							}}>
 							Delete
-						</button> */}
+						</button>
 					</h4>
-					{author.cookbooks.length > 0 ? (
-						<DisplayCookbooks cookbooks={author.cookbooks} />
-					) : (
-						<></>
-					)}
+					<DisplayCookbooks cookbooks={author.cookbooks} />
 				</article>
 			);
 		});
@@ -45,7 +42,7 @@ const DisplayAuthors = (props) => {
 	return (
 		<div>
 			<h2>Authors</h2>
-			<Link to='/add-authors'>
+			<Link to='/add-author'>
 				<button>Add Author</button>
 			</Link>
 			{displayAuthors}

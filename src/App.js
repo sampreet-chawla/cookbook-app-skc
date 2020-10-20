@@ -11,6 +11,7 @@ import './App.css';
 import Home from './components/Home.jsx';
 import DisplayAuthors from './components/DisplayAuthors';
 import DisplayCookbooks from './components/DisplayCookbooks';
+import DisplayAuthorForm from './components/DisplayAuthorForm';
 
 function App() {
 	//const url = 'https://cookbook-api-skc.herokuapp.com/api';
@@ -30,6 +31,9 @@ function App() {
 	const [cookbooks, setCookbooks] = useState([]);
 	const [authors, setAuthors] = useState([]);
 
+	const [selectedAuthor, setSelectedAuthor] = useState(emptyAuthor);
+	const [selectedACookbook, setSelectedCookbook] = useState(emptyCookbook);
+
 	const getAuthors = () => {
 		axios
 			.get(url + '/authors/')
@@ -40,14 +44,47 @@ function App() {
 			});
 	};
 
-	const handleGetCookbooks = () => {
-		axios
-			.get(url + '/cookbooks/')
-			.then((res) => res.json())
-			.then((data) => setCookbooks(data.data ? data.data : []));
+	useEffect(getAuthors, []);
+
+	// const handleGetCookbooks = () => {
+	// 	axios
+	// 		.get(url + '/cookbooks/')
+	// 		.then((res) => res.json())
+	// 		.then((data) => setCookbooks(data.data ? data.data : []));
+	// };
+
+	// handle function for creating dogs
+	const handleCreateAuthor = (newAuthor) => {
+		axios({
+			url: url + '/authors/',
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			data: JSON.stringify(newAuthor),
+		}).then((data) => getAuthors());
 	};
 
-	useEffect(getAuthors, []);
+	const selectAuthor = (author) => {
+		setSelectedAuthor(author);
+	};
+
+	// //HandleUpdate to to update the author when form is submitted
+	const handleUpdateAuthor = (author) => {
+		console.log('App selectedAuthor: ', author);
+		axios({
+			url: url + '/authors/id/' + author._id,
+			method: 'put',
+			headers: { 'Content-Type': 'application/json' },
+			data: JSON.stringify(author),
+		}).then((data) => getAuthors());
+	};
+
+	// // Delete Author function
+	const deleteAuthor = (author) => {
+		axios({
+			url: url + '/authors/id/' + author._id,
+			method: 'delete',
+		}).then((data) => getAuthors());
+	};
 
 	return (
 		<Router>
@@ -58,7 +95,38 @@ function App() {
 				<Route
 					exact={true}
 					path='/authors'
-					render={(rp) => <DisplayAuthors {...rp} authors={authors} />}></Route>
+					render={(rp) => (
+						<DisplayAuthors
+							{...rp}
+							authors={authors}
+							selectAuthor={selectAuthor}
+							deleteAuthor={deleteAuthor}
+						/>
+					)}></Route>
+				<Route
+					exact
+					path='/add-author'
+					render={(rp) => (
+						<DisplayAuthorForm
+							{...rp}
+							label='Add Author'
+							author={emptyAuthor}
+							handleSubmit={handleCreateAuthor}
+						/>
+					)}
+				/>
+				<Route
+					exact
+					path='/edit-author'
+					render={(rp) => (
+						<DisplayAuthorForm
+							{...rp}
+							label='Edit Author'
+							author={selectedAuthor}
+							handleSubmit={handleUpdateAuthor}
+						/>
+					)}
+				/>
 				<Route
 					exact={true}
 					path='/cookbooks'
