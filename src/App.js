@@ -14,8 +14,8 @@ import DisplayCookbooks from './components/DisplayCookbooks';
 import DisplayAuthorForm from './components/DisplayAuthorForm';
 
 function App() {
-	//const url = 'https://cookbook-api-skc.herokuapp.com/api';
-	const url = 'http://localhost:4000/api';
+	const url = 'https://cookbook-api-skc.herokuapp.com/api';
+	//const url = 'http://localhost:4000/api';
 
 	const emptyCookbook = {
 		title: '',
